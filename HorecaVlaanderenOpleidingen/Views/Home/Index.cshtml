@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Opleidingstool Horeca Vlaanderen</h1>
+    <p class="lead">Deze Tool werd ontwikkeld voor Horeca Vlaanderen  </p>
+    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Meer uitleg &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Studenten zoeken</h2>
+        <p>
+            In dit onderdeel kan je een cursist opzoeken en zijn of haar gegevens aanpassen.
+        </p>
+        <p>@Html.ActionLink("Cursisten", "Index", "Students")></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Opleidingen</h2>
+        <p>Het is mogelijk om opleidingen toe te voegen, te verwijderen of te bewerken.</p>
+        <p>@Html.ActionLink("Opleidingen", "Index", "Opleidingen")></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Instructers</h2>
+        <p>Het is mogelijk om instructors toe te voegen, te verwijderen of te bewerken.</p>
+        <p>@Html.ActionLink("Instructors", "Index", "Instructors")</p>
+    </div>
+</div>
