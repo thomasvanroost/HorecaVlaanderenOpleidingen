@@ -8,19 +8,38 @@ using System.Web;
 using System.Web.Mvc;
 using HorecaVlaanderenOpleidingen.DAL;
 using HorecaVlaanderenOpleidingen.Models;
+using PagedList;
+using System.Data.Entity.Infrastructure;
 
 namespace HorecaVlaanderenOpleidingen.Controllers
 {
+    //[Authorize]
     public class StudentsController : Controller
     {
         private SchoolContext db = new SchoolContext();
 
         // GET: Students
-        public ActionResult Index(string sortOrder, string searchString)
+        // Authorize verwijst naar login indien de gebruiker niet ingelogd is.
+        
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            // sorteren voor pagination
+            ViewBag.CurrentSort = sortOrder;
             // hoe sorteren (gebruik gemaakt van Linq)
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
             var students = from s in db.Students
                            select s;
 
@@ -47,7 +66,11 @@ namespace HorecaVlaanderenOpleidingen.Controllers
                     students = students.OrderBy(s => s.LastName);
                     break;
             }
-            return View(students.ToList());
+
+
+            int pageSize = 3; //aantal items per pagina
+            int pageNumber = (page ?? 1); // ?? = als de parameter/variable null is zet waaropde op .. (1 in dit geval)
+            return View(students.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Students/Details/5
@@ -88,7 +111,7 @@ namespace HorecaVlaanderenOpleidingen.Controllers
                 return RedirectToAction("Index");
             }
             }
-            catch (DataException /* dex */)
+            catch (RetryLimitExceededException  /* dex */)
             {
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
@@ -136,7 +159,7 @@ namespace HorecaVlaanderenOpleidingen.Controllers
 
                     return RedirectToAction("Index");
                 }
-                catch (DataException /* dex */)
+                catch (RetryLimitExceededException  /* dex */)
                 {
                     //Log the error (uncomment dex variable name and add a line here to write a log.
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
