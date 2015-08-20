@@ -13,7 +13,7 @@ using System.Data.Entity.Infrastructure;
 
 namespace HorecaVlaanderenOpleidingen.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class StudentsController : Controller
     {
         private SchoolContext db = new SchoolContext();

@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace HorecaVlaanderenOpleidingen.Models
 {
+    
     public class Instructor
     {
         public int ID { get; set; }
 
         [Required]
-        [Display(Name = "Acht")]
+        [Display(Name = "Achternaam")]
         [StringLength(50)]
         public string LastName { get; set; }
 

@@ -8,9 +8,11 @@ using HorecaVlaanderenOpleidingen.ViewModels;
 
 namespace HorecaVlaanderenOpleidingen.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private SchoolContext db = new SchoolContext();
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View();

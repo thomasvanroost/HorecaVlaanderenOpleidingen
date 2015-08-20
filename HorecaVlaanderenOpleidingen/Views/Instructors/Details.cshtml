@@ -1,4 +1,5 @@
 ﻿@model HorecaVlaanderenOpleidingen.Models.Instructor
+@using Jmelosegui.Mvc.Googlemap
 
 @{
     ViewBag.Title = "Details";
@@ -10,6 +11,7 @@
 <div>
     <h4>Instructor</h4>
     <hr />
+    <p></p>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.OfficeAssignment.Location)
@@ -45,7 +47,25 @@
 
     </dl>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+
+@(
+
+ Html.GoogleMap()
+        .Name("map")
+        .Height(250)
+
+        .Center(c => c.Address("Koningin Astridlaan 202, Mechelen"))
+        .Markers(m => m.Add())
+)
+    
+
+@section scripts
+    {
+    @(Html.GoogleMap().ScriptRegistrar())
+}
